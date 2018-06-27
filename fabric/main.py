@@ -102,6 +102,12 @@ class Fab(Program):
         super(Fab, self).update_config(merge=False)
         self.config.set_runtime_ssh_path(self.args["ssh-config"].value)
         self.config.load_ssh_config()
+        # Override hosts config if provided on the command line
+        overrides = {}
+        hosts_value = self.args['hosts'].value
+        if hosts_value is not None:
+            overrides['hosts'] = hosts_value
+        self.config.load_overrides(overrides, merge=False)
         # Load -i identity file, if given, into connect_kwargs, at overrides
         # level.
         # TODO: this feels a little gross, but since the parent has already

@@ -12,9 +12,8 @@ class FabExecutor(Executor):
         ret = []
         # TODO: mesh well with Invoke list-type args helper (inv #132)
         hosts = []
-        host_str = self.core[0].args.hosts.value
-        if apply_hosts and host_str:
-            hosts = host_str.split(",")
+        if 'hosts' in self.config and apply_hosts:
+            hosts = self.config['hosts'].split(",")
         for call in calls:
             if isinstance(call, Task):
                 call = Call(task=call)
